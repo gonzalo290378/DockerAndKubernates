@@ -1,0 +1,52 @@
+#ESPECIFICACION O VERSION DE DOCKER-COMPOSE
+version: "3.9"
+#LOS SERVICES SON LOS CONTENEDORES
+services:
+  mysql-cursos:
+    container_name: mysql-cursos
+    image: mysql:8
+    ports:
+      - "3305:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: granada290378
+      MYSQL_DATABASE: msvc_cursos
+    volumes:
+      - data-mysql-cursos:/var/lib/mysql
+    restart: always
+    networks:
+      - spring
+
+  msvc-cursos:
+    container_name: msvc-cursos
+    #Construccion de la imagen
+    #    build:
+    #      context: ./
+    #      dockerfile: ./msvc-cursos/Dockerfile
+    image: gonzalo290378/cursos
+    ports:
+      - "8002:8002"
+    #    ENVIRONMENT LOCAL
+    #    env_file: ./msvc-usuarios/.env
+    environment:
+      PORT: 8002
+      DB_HOST: mysql-cursos:3306
+      DB_DATABASE: msvc_cursos
+      DB_USERNAME: root
+      DB_PASSWORD: granada290378
+      USUARIOS_URL: ec2-54-81-112-86.compute-1.amazonaws.com:8001
+    networks:
+      - spring
+    depends_on:
+      - mysql-cursos
+    restart: always
+
+#CONFIGURACION DE LOS VOLUMES PARA CADA BASE CON EL FIN DE SER SER UTILIZADA EN SERVICES
+volumes:
+  data-mysql-cursos:
+    name: data-mysql-cursos
+
+#CONFIGURACION DE LA NETWORD SPRING CON EL FIN SER UTILIZADA EN SERVICES
+networks:
+  spring:
+    name: spring
+    external: true

@@ -1,0 +1,31 @@
+COMANDOS
+
+- Conexión desde Ubuntu local a Ubuntu remoto
+
+1)Abrir Ubuntu desde Inicio
+2)sudo su
+3)Ahora estamos parados en root@Gonza:~# (que es el Ubuntu local)
+4)Tipeamos: ssh -i "spring-cloud.pem" ec2-user@ec2-54-158-233-99.compute-1.amazonaws.com
+5)Y ahora estamos conectados al WSL Ubuntu (remoto), por lo que nos daremos cuenta que es el remoto ya que el prompt es: [ec2-user@ip-172-31-41-242 ~]$
+
+- Comandos dentro de Ubuntu remoto (En [ec2-user@ip-172-31-41-242 ~]$)
+
+free (Te muestra la cantidad de ram total, consumida, disponible)
+sudo docker-compose up -d (levanta Docker)
+
+
+SHOTCUTS
+
+IR A LA CARPETA DE CURSOS DOCKER
+root@Gonza:/# cd mnt/c/Users/gonza/OneDrive/Escritorio/Programacion-Verdadero/IntelliJ\ Idea/Curso-kubernetes/
+
+COPIAR spring-cloud.pem DE MI LOCAL AL ROOT REMOTO DE UBUNTU
+root@Gonza:/mnt/c/Users/gonza/OneDrive/Escritorio/Programacion-Verdadero/IntelliJ Idea/Curso-kubernetes# cp spring-cloud.pem /root
+
+IR A MI ROOT LOCAL
+root@Gonza:/mnt/c/Users/gonza/OneDrive/Escritorio/Programacion-Verdadero/IntelliJ Idea/Curso-kubernetes# cd /
+root@Gonza:/# cd /root
+
+- Para copiar desde el Ubuntu Local al remoto: scp -i "spring-cloud.pem" docker-compose.yml ec2-user@ec2-54-158-233-99.compute-1.amazonaws.com:/home/ec2-user
+
+

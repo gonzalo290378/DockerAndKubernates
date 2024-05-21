@@ -1,0 +1,16 @@
+MYSQL-USUARIOS
+docker run -d -p 3304:3306 --name mysql-usuarios --network spring -e MYSQL_ROOT_PASSWORD=granada290378 -e MYSQL_DATABASE=msvc_usuarios -v data-mysql-usuarios:/var/lib/mysql mysql:8
+
+MYSQL-CURSOS
+docker run -d -p 3305:3306 --name mysql-cursos --network spring -e MYSQL_ROOT_PASSWORD=granada290378 -e MYSQL_DATABASE=msvc_cursos -v data-mysql-cursos:/var/lib/mysql mysql:8
+
+USUARIOS
+docker build -t usuarios . -f .\msvc-usuarios\Dockerfile  
+docker run -p 8001:8001 --env-file .\msvc-usuarios\.env -d --name msvc-usuarios --network spring usuarios
+
+CURSOS
+docker build -t cursos . -f .\msvc-cursos\Dockerfile  
+docker run -p 8002:8002 --env-file .\msvc-cursos\.env -d --name msvc-cursos --network spring cursos
+
+
+

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-cursos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-cursos
+  template:
+    metadata:
+      labels:
+        app: mysql-cursos
+    spec:
+      containers:
+        - image: mysql:8
+          name: mysql
+          ports:
+            - containerPort: 3306
+          env:
+#           CONFIGURACION DE AMBIENTE CONSUMIDA DESDE EL SECRET
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: msvc-cursos
+                  key: password
+#           CONFIGURACION DE AMBIENTE CONSUMIDA DESDE EL CONFIGMAP
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-cursos
+                  key: db_database
+#         CONFIGURACION DE LOS VOLUMENES
+          volumeMounts:
+            - name: data-mysql2
+              mountPath: /var/lib/mysql2
+      volumes:
+        - name: data-mysql2
+          hostPath:
+            path: /var/lib/mysql2
+            type: DirectoryOrCreate

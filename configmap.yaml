@@ -1,0 +1,31 @@
+#EN LOS CONFIGMAP PODEMOS TENER EN UN MISMO ARCHIVO LAS CONFIGURACIONES DE TODOS LOS MICROSERVICIOS
+#MICROSERVICIO MSVC-USUARIOS
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: msvc-usuarios
+#LOS SIGUIENTES NO SON VARIABLES DE ENTORNO, SON VARIABLES CLAVE-VALOR
+data:
+  port: "8001"
+  db_host: "mysql-usuarios:3306"
+  db_database: "msvc_usuarios"
+# ESTOS VALORES LOS COMENTAMOS PUES LOS TRASLADAMOS AL SECRET
+#  username: "root"
+#  password: "granada290378"
+  cursos_url: "msvc-cursos:8002"
+
+---
+#MICROSERVICIO MSVC-CURSOS
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: msvc-cursos
+#LOS SIGUIENTES NO SON VARIABLES DE ENTORNO, SON VARIABLES CLAVE-VALOR
+data:
+  port: "8002"
+  db_host: "mysql-cursos:3306"
+  db_database: "msvc_cursos"
+# ESTOS VALORES LOS COMENTAMOS PUES LOS TRASLADAMOS AL SECRET
+#  username: "root"
+#  password: "granada290378"
+  usuarios_url: "msvc-usuarios:8001"
